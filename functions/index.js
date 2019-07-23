@@ -7,34 +7,33 @@ admin.initializeApp({
    databaseURL: "https://trecked-6b2cd.firebaseio.com"
 });
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("SUPPPP!");
-});
+const express = require('express');
+const app = express();
 
-exports.getLocations = functions.https.onRequest((req, res) => {
+app.get('/places', (req, res) => {
    admin
       .firestore()
       .collection('places')
+      .orderBy('createdAt', 'desc')
       .get()
       .then(data => {
          let locations = [];
          data.forEach(doc => {
-            locations.push(doc.data());
+            locations.push({
+               locationId: doc.id,
+               ...doc.data()
+            });
          });
          return res.json(locations);
       })
       .catch(err => console.error(err));
-});
+})
 
-exports.createLocation = functions.https.onRequest((req, res) => {
-   if(req.method !== 'POST'){
-      return res.status(400).json({error: 'Method not allowed'});
-   }
-   
+app.post('/place', (req, res) => {
    const newLocation = {
       body: req.body.body,
       userHandle: req.body.userHandle,
-      createdAt: admin.firestore.Timestamp.fromDate(new Date())
+      createdAt: new Date().toISOString()
    };
 
    admin
@@ -49,3 +48,7 @@ exports.createLocation = functions.https.onRequest((req, res) => {
          console.error(err);
       });
 });
+
+
+// use /api/ as prefix
+exports.api = functions.region('europe-west1').https.onRequest(app);
