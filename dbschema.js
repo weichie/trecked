@@ -19,6 +19,14 @@ const db = {
          website: 'https://weichieprojects.com',
          location: 'Brussels, BE'
       }
+   ],
+   comments: [
+      {
+         userHandle: 'user',
+         placeId: 'gflkjdfglkdjgffdgdl',
+         body: 'Nice one mate!',
+         createdAt: '2019-07-23T05:37:12.881Z'
+      }
    ]
 };
 
