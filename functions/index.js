@@ -14,7 +14,7 @@ app.post('/place', FBAuth, postOnePlace);
 // -- users -----
 app.post('/signup', signup);
 app.post('/login', login);
-app.post('/user/image', uploadImage);
+app.post('/user/image', FBAuth, uploadImage);
 
 // use /api/ as prefix
 exports.api = functions.region('europe-west1').https.onRequest(app);

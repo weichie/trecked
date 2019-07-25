@@ -6,6 +6,8 @@ Ever seen a post on facebook that goes like "Someone any tips & tricks for Kroat
 ### Used Packages & Libraries
 - Express: *api routing*
 - Firebase: *database*
+- BusBoy: *parsing HTML form data*
+- Tailwind: *css framework*
 
 ### Build Setup
 ``` bash
