@@ -27,6 +27,16 @@ const db = {
          body: 'Nice one mate!',
          createdAt: '2019-07-23T05:37:12.881Z'
       }
+   ],
+   notifications: [
+      {
+         recipient: 'user',
+         sender: 'john',
+         read: 'true | false',
+         placeId: 'gdkjfgsdmfgsdfsfdgp',
+         type: 'like | comment',
+         createdAt: '2019-03-15T10:59:52.798Z'
+      }
    ]
 };
 
