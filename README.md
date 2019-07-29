@@ -8,11 +8,20 @@ Ever seen a post on facebook that goes like "Someone any tips & tricks for Kroat
 - Firebase: *database*
 - BusBoy: *parsing HTML form data*
 - Tailwind: *css framework*
+- Vuejs
 
 ### Build Setup
 ``` bash
 # install dependencies
 $ npm install
+
+# Run Vuejs
+$ cd vue
+$ yarn install
+$ yarn serve
+$ yarn build
+$ yarn run test
+$ yarn run lint
 
 # Deploy / Serve firebase
 $ firebase deploy
