@@ -1,14 +1,14 @@
 <template>
-  <div class="home">
-    <h1>This is the homepage</h1>
-    <div class="bg-red text-white sm:bg-green">
-      Welcome {{ $store.state.auth.test }}
-    </div>
+  <div class="home container mx-auto">
+    <h1>Home page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'home',
+  metaInfo: {
+    title: 'Trecked | Your personal travel guide, created by your friends!'
+  }
 }
 </script>

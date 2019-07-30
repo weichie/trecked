@@ -4,11 +4,14 @@ Ever seen a post on facebook that goes like "Someone any tips & tricks for Kroat
 > This project is not live yet...
 
 ### Used Packages & Libraries
-- Express: *api routing*
-- Firebase: *database*
-- BusBoy: *parsing HTML form data*
-- Tailwind: *css framework*
-- Vuejs
+- [Express] (https://expressjs.com/): *api routing*
+- [Firebase] (https://firebase.google.com/): *database*
+- [BusBoy] (https://www.npmjs.com/package/busboy): *parsing HTML form data*
+- [Tailwind] (https://tailwindcss.com/): *css framework*
+- [Vuejs] (https://vuejs.org/)
+   - [Vuex] (https://vuex.vuejs.org/guide/)
+   - [Vue-router] (https://router.vuejs.org/)
+   - [vue-meta] (https://github.com/nuxt/vue-meta)
 
 ### Build Setup
 ``` bash
