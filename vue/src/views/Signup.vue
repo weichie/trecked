@@ -1,41 +1,113 @@
 <template>
    <div class="auth container mx-auto flex justify-center">
       <div class="w-full max-w-xs">
-         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+         <form @submit.prevent="handleSubmit()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-4">
                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-               Username
+                  Username
                </label>
-               <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
+               <input 
+                  v-model="email"
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                  id="email" 
+                  type="text" 
+                  placeholder="john.snow@gmail.com">
+               <small style="color: red;" v-if="errors && errors.email">{{ errors.email }}</small>
             </div>
-            <div class="mb-6">
-               <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-               Password
+            <div class="mb-4">
+               <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                  Password
                </label>
-               <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
-               <p class="text-red-500 text-xs italic">Please choose a password.</p>
+               <input 
+                  v-model="password"
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                  id="password" 
+                  type="password" 
+                  placeholder="*************">
+               <small style="color: red;" v-if="errors && errors.password">{{ errors.password }}</small>
+            </div><div class="mb-4">
+               <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                  Confirm Password
+               </label>
+               <input 
+                  v-model="confirmPassword"
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                  id="confirmPassword" 
+                  type="password" 
+                  placeholder="*************">
+               <small style="color: red;" v-if="errors && errors.confirmPassword">{{ errors.confirmPassword }}</small>
+            </div><div class="mb-4">
+               <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                  Handle
+               </label>
+               <input 
+                  v-model="handle"
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                  id="handle" 
+                  type="text" 
+                  placeholder="King of the north">
+               <small style="color: red;" v-if="errors && errors.handle">{{ errors.handle }}</small>
             </div>
             <div class="flex items-center justify-between">
-               <button class="bg-pink hover:bg-pink text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                  Sign In
+               <button 
+                  class="btn bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none" 
+                  :class="{'opacity-50 cursor-not-allowed': loading}"
+                  type="submit">
+                  Sign up
                </button>
-               <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-                  Forgot Password?
-               </a>
+               <router-link to="/login" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+                  Login?
+               </router-link>
             </div>
          </form>
-         <p class="text-center text-gray-500 text-xs">
-         &copy;2019 Weichie. All rights reserved.
-         </p>
+
+         <Copyright />
       </div>
    </div>
 </template>
 
 <script>
+import Copyright from '../components/Copyright.vue';
+import axios from 'axios';
+
 export default {
    name: 'Signup',
+   components: {
+      Copyright,
+   },
+   data() {
+      return{
+         email: '',
+         password: '',
+         confirmPassword: '',
+         handle: '',
+         loading: false,
+         errors: null,
+      };
+   },
+   methods: {
+      handleSubmit(){
+         this.loading = true;
+         const userData = {
+            email: this.email,
+            password: this.password,
+            confirmPassword: this.confirmPassword,
+            handle: this.handle,
+         };
+         axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/signup', userData)
+            .then(res => {
+               localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
+               this.loading = false;
+               this.$router.push('/');
+            })
+            .catch(err => {
+               this.errors = (err.response.data.errors) ? err.response.data.errors : err.response.data;
+               this.loading = false;
+            })
+      }
+   },
    metaInfo: {
-      title: 'Signup | Trecked: Your personal travel guide'
-   }
-}
+      title: 'Signup | Trecked: Your personal travel guide',
+   },
+};
 </script>

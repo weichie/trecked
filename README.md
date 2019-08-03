@@ -14,6 +14,7 @@ Ever seen a post on facebook that goes like "Someone any tips & tricks for Kroat
    - [vue-meta](https://github.com/nuxt/vue-meta)
 - [Axios](https://www.npmjs.com/package/axios): *Making API calls*
 - [dayjs](https://www.npmjs.com/package/dayjs): *date formatting (lightweight momentjs)*
+- [JWT Decode](https://www.npmjs.com/package/jwt-decode): *decoding Base64Url encoded JWTs tokens*
 
 
 ### Build Setup
