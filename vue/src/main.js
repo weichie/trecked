@@ -19,15 +19,21 @@ let authenticated;
 const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
-  console.log('running');
-  console.log(decodedToken);
-  if(decodedToken.exp * 1000 < Date.now()){
-    window.location.href= '/login'
-    authenticated = false;
-  } else {
+  if(decodedToken.exp * 1000 > Date.now()){
+    // window.location.href= '/login'
     authenticated = true;
+  } else {
+    authenticated = false;
   }
 }
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !authenticated) next('login');
+  // else if (!requiresAuth && authenticated) next('home');
+  else next();
+});
 
 Vue.filter('fromNow', value => {
   if (!value) return ''

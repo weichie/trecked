@@ -10,19 +10,22 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },{
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      meta: {
+        requiresAuth: true,
+      },
     }, {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
+      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue'),
     }, {
       path: '/signup',
       name: 'signup',
-      component: () => import(/* webpackChunkName: "signup" */ './views/Signup.vue')
-    }
+      component: () => import(/* webpackChunkName: "signup" */ './views/Signup.vue'),
+    },
   ]
 })
