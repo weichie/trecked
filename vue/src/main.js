@@ -15,23 +15,22 @@ Vue.use(VueMeta)
 
 dayjs.extend(relativeTime)
 
-let authenticated;
+let firstCheck = false;
 const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
   if(decodedToken.exp * 1000 > Date.now()){
-    // window.location.href= '/login'
-    authenticated = true;
-  } else {
-    authenticated = false;
+    const bearerToken = localStorage.getItem('FBIdToken');
+    firstCheck = true;
+    store.dispatch('setUserData', bearerToken);
   }
-}
+};
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (requiresAuth && !authenticated) next('login');
-  // else if (!requiresAuth && authenticated) next('home');
+  if (requiresAuth && !firstCheck) next('login');
+  // else if (!requiresAuth && firstCheck) next('home');
   else next();
 });
 
