@@ -62,31 +62,23 @@ export default {
     return{
       email: '',
       password: '',
-      loading: false,
-      errors: null,
     }
   },
   methods: {
     handleSubmit(){
-      this.loading = true;
       const userData = {
         email: this.email,
         password: this.password
       };
-
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/login', userData)
-        .then(res => {
-          console.log(res);
-          localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-          this.loading = false;
-
-          // this.props.history.push('/');
-          this.$router.push('/');
-        })
-        .catch(err => {
-          this.errors = (err.response.data.errors) ? err.response.data.errors : err.response.data;
-          this.loading = false;
-        });
+      this.$store.dispatch('loginUser', userData);
+    }
+  },
+  computed: {
+    errors(){
+      return this.$store.getters.getErrors;
+    },
+    loading(){
+      return this.$store.getters.isLoading;
     }
   },
   metaInfo: {
