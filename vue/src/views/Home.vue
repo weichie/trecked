@@ -1,7 +1,7 @@
 <template>
   <div class="home container mx-auto">
     <div class="flex mb-4 border">
-      <div class="w-3/5 px-4 border">
+      <div class="w-4/6 px-4 border">
         <div v-if="places">
           <Place 
             v-for="(place, i) in places" 
@@ -13,8 +13,8 @@
           <p>Loading...</p>
         </div>
       </div>
-      <div class="w-2/5 px-4 border">
-        <p>profile</p>
+      <div class="w-2/6 px-4 border">
+        <Profile />
       </div>
     </div>
   </div>
@@ -23,11 +23,13 @@
 <script>
 import axios from 'axios'
 import Place from '@/components/Place'
+import Profile from '@/components/Profile'
 
 export default {
   name: 'home',
   components: {
-    Place
+    Place,
+    Profile,
   },
   data(){
     return{

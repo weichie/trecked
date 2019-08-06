@@ -6,7 +6,7 @@ export const LOADING_USER = 'LOADING_USER';
 
 // UI types
 export const SET_ERRORS = 'SET_ERRORS';
-export const LOADING_UI = 'LOADING_UI';
+export const SET_LOADING = 'SET_LOADING';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 // Data types

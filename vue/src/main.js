@@ -15,13 +15,14 @@ Vue.use(VueMeta)
 
 dayjs.extend(relativeTime)
 
-let firstCheck = false;
 const token = localStorage.FBIdToken;
 if(token){
   const decodedToken = jwtDecode(token);
-  if(decodedToken.exp * 1000 > Date.now()){
+  if(decodedToken.exp * 1000 < Date.now()){
+    store.dispatch('setAuthenticated', false);
+  } else {
     const bearerToken = localStorage.getItem('FBIdToken');
-    firstCheck = true;
+    store.dispatch('setAuthenticated', true);
     store.dispatch('setUserData', bearerToken);
   }
 };
@@ -29,7 +30,7 @@ if(token){
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (requiresAuth && !firstCheck) next('login');
+  if (requiresAuth && !store.getters.isAuthenticated) next('login');
   // else if (!requiresAuth && firstCheck) next('home');
   else next();
 });
@@ -37,6 +38,11 @@ router.beforeEach((to, from, next) => {
 Vue.filter('fromNow', value => {
   if (!value) return ''
   return dayjs(value).fromNow()
+});
+
+Vue.filter('capitalize', value => {
+  if (!value) return '';
+  return value.charAt(0).toUpperCase() + value.slice(1);
 });
 
 new Vue({

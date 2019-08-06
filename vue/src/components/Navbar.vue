@@ -1,9 +1,9 @@
 <template>
-   <nav class="main-navbar flex items-center justify-between flex-wrap bg-teal-500 p-6">
-      <div class="flex items-center flex-shrink-0 text-white mr-6">
+   <nav class="navbar">
+      <div class="logo">
          <router-link to="/">
             <!-- SVG ICON HERE -->
-            <span class="font-semibold text-xl tracking-tight">Trecked</span>
+            <span class="logo-text">Trecked</span>
          </router-link>
       </div>
 
@@ -15,21 +15,25 @@
          </button>
       </div>
    
-      <div class="w-auto flex-grow flex items-center">
-         <div class="text-right flex-grow">
-            <router-link to="/about" class="inline-block text-teal-200 hover:text-white mr-4">
-               About
-            </router-link>
-            <router-link v-if="!$store.getters.isAuthenticated" to="/login" class="inline-block text-teal-200 hover:text-white">
-               Login
-            </router-link>
-            <router-link v-if="!$store.getters.isAuthenticated" to="/signup" class="inline-block text-sm px-4 py-2 ml-4 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
-               Signup
-            </router-link>
+      <div class="main-menu">
+         <router-link to="/about">
+            About
+         </router-link>
 
-            <router-link v-if="$store.getters.isAuthenticated" to="/login" class="inline-block text-teal-200 hover:text-white mr-4">
-               Profile
+         <router-link v-if="!$store.getters.isAuthenticated" to="/login">
+            Login
+         </router-link>
+         <router-link v-if="!$store.getters.isAuthenticated" to="/signup" class="btn-featured">
+            Signup
+         </router-link>
+
+         <div v-if="$store.getters.isAuthenticated" class="dropdown">
+            <router-link to="/login">
+               {{ $store.getters.getUserCredentials.handle | capitalize }}
             </router-link>
+            <a href="#" @click.prevent="logoutUser">
+               Logout
+            </a>
          </div>
       </div>
    </nav>
@@ -38,5 +42,10 @@
 <script>
 export default {
    name: 'Navbar',
+   methods: {
+      logoutUser() {
+         this.$store.dispatch('logOut');
+      },
+   },
 }
 </script>

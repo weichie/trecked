@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '@/router';
-import { SET_USERS, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
+
+import { SET_LOADING, SET_ERRORS } from '../types';
 
 const state = {
    authenticated: false,
@@ -22,40 +23,40 @@ const getters = {
 
 const actions = {
    loginUser: ({ commit, dispatch }, payload) => {
-      commit('setLoadingState', true);
+      commit(SET_LOADING, true);
       axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/login', payload)
          .then(res => {
             const FBIdToken = `Bearer ${res.data.token}`;
             localStorage.setItem('FBIdToken', FBIdToken);
             axios.defaults.headers.common['Authorization'] = FBIdToken;
             commit('setUserToken', res);
-            commit('setErrors', null);
-            commit('setLoadingState', false);
+            commit(SET_ERRORS, null);
+            commit(SET_LOADING, false);
             commit('setAuthenticated', true);
             dispatch('setUserData');
             router.push('/');
          })
          .catch(err => {
-            (err.response.data.errors) ? commit('setErrors', err.response.data.errors) : commit('setErrors', err.response.data);
-            commit('setLoadingState', false);
+            (err.response.data.errors) ? commit(SET_ERRORS, err.response.data.errors) : commit(SET_ERRORS, err.response.data);
+            commit(SET_LOADING, false);
          });
    },
    signupUser: ({ commit }, payload) => {
-      commit('setLoadingState', true);
+      commit(SET_LOADING, true);
       axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/signup', payload)
          .then(res => {
             const FBIdToken = `Bearer ${res.data.token}`;
             localStorage.setItem('FBIdToken', FBIdToken);
             axios.defaults.headers.common['Authorization'] = FBIdToken;
             commit('setUserToken', res);
-            commit('setErrors', null);
-            commit('setLoadingState', false);
+            commit(SET_ERRORS, null);
+            commit(SET_LOADING, false);
             dispatch('setUserData');
             router.push('/');
          })
          .catch(err => {
-            (err.response.data.errors) ? commit('setErrors', err.response.data.errors) : commit('setErrors', err.response.data);
-            commit('setLoadingState', false);
+            (err.response.data.errors) ? commit(SET_ERRORS, err.response.data.errors) : commit(SET_ERRORS, err.response.data);
+            commit(SET_LOADING, false);
          });
    },
    setUserData: ({commit}, payload = null) => {
@@ -64,7 +65,6 @@ const actions = {
       }
       axios.get('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user')
          .then(res => {
-            console.log(res);
             commit('setUserCredentials', res.data.credentials);
             commit('setUserLikes', res.data.likes);
             commit('setUserNotifications', res.data.notifications);
@@ -73,6 +73,15 @@ const actions = {
          .catch(err => {
             console.error(err);
          })
+   },
+   logOut: ({commit}) => {
+      localStorage.removeItem('FBIdToken');
+      delete axios.defaults.headers.common['Authorization'];
+      commit('setAuthenticated', false);
+      router.push('/');
+   },
+   setAuthenticated: ({commit}, payload) => {
+      commit('setAuthenticated', payload);
    }
 };
 

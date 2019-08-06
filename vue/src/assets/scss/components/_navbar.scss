@@ -1,3 +1,31 @@
-.main-navbar{
-   margin-bottom: 35px;
+.navbar {
+   @apply mb-8 flex items-center justify-between flex-wrap bg-teal-500 py-4 px-6;
+}
+
+.logo {
+   @apply flex items-center flex-shrink-0 text-white mr-6;
+
+   .logo-txt {
+      @apply font-semibold text-xl tracking-tight;
+   }
+}
+
+.main-menu {
+   @apply w-auto flex-grow flex items-center justify-end;
+
+   a {
+      @apply inline-block text-teal-200 mr-4;
+
+      &.btn-featured {
+         @apply text-sm px-4 py-2 mr-0 border rounded text-white border-white;
+      }
+
+      &.btn-featured:hover {
+         @apply border-transparent text-teal-500 bg-white;
+      }
+      
+      &:hover {
+         @apply text-white;
+      }
+   }
 }
