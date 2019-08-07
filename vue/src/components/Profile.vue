@@ -3,7 +3,11 @@
       <div class="content" v-if="!loading">
          <div v-if="authenticated" class="profile">
             <div class="profile__header">
-               <img :src="user.imageUrl" :alt="`${user.handle} avatar`">
+               <div class="avatar">
+                  <img :src="user.imageUrl" :alt="`${user.handle} avatar`" @click="handleEditAvatar">
+                  <input type="file" hidden="hidden" id="imageInput" @change="handleImageChange($event)" />
+               </div>
+               
                <div class="wrapper">
                   <h4>Welcome {{ user.handle | capitalize }}</h4>
                   <router-link :to="`/user/${user.handle}`">
@@ -38,6 +42,18 @@ import dayjs from 'dayjs';
 
 export default {
    name: 'userProfile',
+   methods: {
+      handleImageChange(event){
+         const data = new FormData();
+         const file = event.target.files[0];
+         data.append('image', file, file.name);
+         this.$store.dispatch('uploadImage', data);
+      },
+      handleEditAvatar(){
+         const fileInput = document.getElementById('imageInput');
+         fileInput.click();
+      },
+   },
    computed: {
       user() {
          return this.$store.getters.getUserCredentials;

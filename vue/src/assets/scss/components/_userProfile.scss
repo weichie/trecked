@@ -4,5 +4,10 @@
    img {
       @apply rounded-full mr-4;
       width: 75px; height: 75px;
+      cursor: pointer;
+
+      &:hover {
+         opacity: .7
+      }
    }
 }

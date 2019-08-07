@@ -31,9 +31,11 @@ const actions = {
             axios.defaults.headers.common['Authorization'] = FBIdToken;
             commit('setUserToken', res);
             commit(SET_ERRORS, null);
-            commit(SET_LOADING, false);
             commit('setAuthenticated', true);
             dispatch('setUserData');
+         })
+         .then(() => {
+            commit(SET_LOADING, false);
             router.push('/');
          })
          .catch(err => {
@@ -69,6 +71,7 @@ const actions = {
             commit('setUserLikes', res.data.likes);
             commit('setUserNotifications', res.data.notifications);
             commit('setAuthenticated', true);
+            commit(SET_LOADING, false);
          })
          .catch(err => {
             console.error(err);
@@ -82,6 +85,18 @@ const actions = {
    },
    setAuthenticated: ({commit}, payload) => {
       commit('setAuthenticated', payload);
+   },
+   uploadImage: ({commit, dispatch}, payload) => {
+      commit(SET_LOADING, true);
+      console.log(payload);
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user/image', payload)
+         .then(() => {
+            dispatch('setUserData');
+         })
+         .catch(err => {
+            console.log(err);
+         });
    }
 };
 
