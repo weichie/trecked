@@ -17,7 +17,6 @@ dayjs.extend(relativeTime)
 
 const token = localStorage.FBIdToken;
 if(token){
-  console.log(token);
   const decodedToken = jwtDecode(token);
   if(decodedToken.exp * 1000 < Date.now()){
     store.dispatch('setAuthenticated', false);

@@ -207,7 +207,7 @@ exports.uploadImage = (req, res) => {
          return res.status(400).json({ error: 'Wrong file type submitted' });
       }
       const imageExtension = filename.split('.')[filename.split('.').length - 1];
-      imageFileName = `${Math.round(Math.random() * 100000000000)}.${imageExtension}`;
+      imageFileName = `${Math.round(Math.random() * 100000000)}.${imageExtension}`;
       const filepath = path.join(os.tmpdir(), imageFileName);
       imageToBeUploaded = { filepath, mimetype };
 

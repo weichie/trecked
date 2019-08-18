@@ -88,16 +88,39 @@ const actions = {
    },
    uploadImage: ({commit, dispatch}, payload) => {
       commit(SET_LOADING, true);
-      console.log(payload);
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user/image', payload)
+      const config = {
+         header: {
+            'Content-Type': 'multipart/form-data'
+         }
+      }
+      
+      axios.defaults.headers.common['Authorization'] = localStorage.getItem('FBIdToken');
+      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user/image', payload, config)
          .then(() => {
             dispatch('setUserData');
          })
          .catch(err => {
+            console.log(payload);
+            console.log('error');
             console.log(err);
          });
-   }
+   },
+   updateUserDetails: ({ commit, dispatch }, payload) => {
+      commit(SET_LOADING, true);
+      const token = localStorage.getItem('FBIdToken');
+      axios.defaults.headers.common['Authorization'] = token;
+
+      console.log('data', token);
+
+      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user', payload)
+         .then(() => {
+            dispatch('setUserData', payload);
+            commit(SET_LOADING, false);
+         })
+         .catch(err => {
+            console.error(err);
+         });
+   },
 };
 
 const mutations = {

@@ -28,7 +28,7 @@
          </router-link>
 
          <div v-if="$store.getters.isAuthenticated" class="dropdown">
-            <router-link to="/login">
+            <router-link :to="profileLink">
                {{ $store.getters.getUserCredentials.handle | capitalize }}
             </router-link>
             <a href="#" @click.prevent="logoutUser">
@@ -45,6 +45,13 @@ export default {
    methods: {
       logoutUser() {
          this.$store.dispatch('logOut');
+      },
+   },
+   computed: {
+      profileLink() {
+         const username = this.$store.getters.getUserCredentials.handle;
+         const handle = (username) ? username.toLowerCase() : '';
+         return `/user/${handle}`;
       },
    },
 }

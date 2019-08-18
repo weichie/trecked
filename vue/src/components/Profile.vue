@@ -44,10 +44,10 @@ export default {
    name: 'userProfile',
    methods: {
       handleImageChange(event){
-         const data = new FormData();
+         const formData = new FormData();
          const file = event.target.files[0];
-         data.append('image', file, file.name);
-         this.$store.dispatch('uploadImage', data);
+         formData.append('image', file, file.name);
+         this.$store.dispatch('uploadImage', formData);
       },
       handleEditAvatar(){
          const fileInput = document.getElementById('imageInput');
