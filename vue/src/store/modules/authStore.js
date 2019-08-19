@@ -110,8 +110,6 @@ const actions = {
       const token = localStorage.getItem('FBIdToken');
       axios.defaults.headers.common['Authorization'] = token;
 
-      console.log('data', token);
-
       axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user', payload)
          .then(() => {
             dispatch('setUserData', payload);

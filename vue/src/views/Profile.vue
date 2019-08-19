@@ -21,9 +21,6 @@ export default {
          location: this.$store.getters.getUserCredentials.location,
       }
    },
-   mounted(){
-      this.handleSubmit();
-   },
    methods: {
       handleSubmit(){
          const userData = {
@@ -35,5 +32,10 @@ export default {
          this.$store.dispatch('updateUserDetails', userData);
       },
    },
+   computed: {
+      user(){
+         return this.$store.getters.getUserCredentials
+      },
+   }
 }
 </script>

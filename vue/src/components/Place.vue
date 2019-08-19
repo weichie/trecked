@@ -18,7 +18,12 @@
             <img class="w-10 h-10 rounded-full mr-4" :src="place.userImage" :alt="place.userHandle">
             <div class="text-sm">
                <p class="text-gray-900 leading-none">{{ place.userHandle }}</p>
-               <p class="text-gray-600">{{ place.createdAt | fromNow }}</p>
+               <p class="text-gray-600">
+                  {{ place.createdAt | fromNow }}
+                  <a href="#!" @click.prevent="unlikePlace(place.locationId)">
+                     like
+                  </a>
+               </p>
             </div>
          </div>
       </div>
@@ -32,6 +37,14 @@ export default {
       place: {
          type: Object,
          required: true
+      },
+   },
+   methods: {
+      likePlace(placeId){
+         this.$store.dispatch('likePlace', placeId);
+      },
+      unlikePlace(placeId){
+         this.$store.dispatch('unlikePlace', placeId);
       },
    },
 }

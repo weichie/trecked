@@ -31,7 +31,7 @@
             <router-link :to="profileLink">
                {{ $store.getters.getUserCredentials.handle | capitalize }}
             </router-link>
-            <a href="#" @click.prevent="logoutUser">
+            <a href="#!" @click.prevent="logoutUser">
                Logout
             </a>
          </div>

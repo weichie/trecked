@@ -31,19 +31,13 @@ export default {
     Place,
     Profile,
   },
-  data(){
-    return{
-      places: null
-    }
-  },
   mounted(){
-    axios.get('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/places')
-      .then(res => {
-        this.places = res.data
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    this.$store.dispatch('getPlaces');
+  },
+  computed: {
+    places(){
+      return this.$store.getters.getPlaces;
+    },
   },
   metaInfo: {
     title: 'Trecked | Your personal travel guide, created by your friends!'
