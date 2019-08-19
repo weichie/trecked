@@ -19,9 +19,12 @@
             <div class="text-sm">
                <p class="text-gray-900 leading-none">{{ place.userHandle }}</p>
                <p class="text-gray-600">
-                  {{ place.createdAt | fromNow }}
-                  <a href="#!" @click.prevent="unlikePlace(place.locationId)">
+                  {{ place.createdAt | fromNow }} | 
+                  <a v-if="!likedPlace" href="#!" @click.prevent="likePlace(place.locationId)">
                      like
+                  </a>
+                  <a v-else href="#!" @click.prevent="unlikePlace(place.locationId)">
+                     unlike
                   </a>
                </p>
             </div>
@@ -41,10 +44,24 @@ export default {
    },
    methods: {
       likePlace(placeId){
-         this.$store.dispatch('likePlace', placeId);
+         if(this.$store.getters.isAuthenticated){
+            this.$store.dispatch('likePlace', placeId);
+         }
       },
       unlikePlace(placeId){
-         this.$store.dispatch('unlikePlace', placeId);
+         if(this.$store.getters.isAuthenticated){
+            this.$store.dispatch('unlikePlace', placeId);
+         }
+      },
+   },
+   computed: {
+      likedPlace() {
+         const userLikes = this.$store.getters.getUserLikes;
+         if(userLikes && userLikes.find(like => like.placeId === this.place.locationId)){
+            return true;
+         }else{
+            return false;
+         }
       },
    },
 }

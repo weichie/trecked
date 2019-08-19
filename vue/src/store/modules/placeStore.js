@@ -27,7 +27,6 @@ const actions = {
          });
    },
    likePlace: ({commit}, payload) => {
-      console.log(`https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/place/${payload}/like`);
       axios.get(`https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/place/${payload}/like`)
          .then(res => commit('likePlace', res.data))
          .catch(err => console.log(err));
