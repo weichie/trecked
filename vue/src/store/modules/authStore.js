@@ -3,6 +3,8 @@ import router from '@/router';
 
 import { SET_LOADING, SET_ERRORS } from '../types';
 
+const APIURL = process.env.VUE_APP_ROOT_API;
+
 const state = {
    authenticated: false,
    credentials: {},
@@ -24,7 +26,7 @@ const getters = {
 const actions = {
    loginUser: ({ commit, dispatch }, payload) => {
       commit(SET_LOADING, true);
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/login', payload)
+      axios.post(`${APIURL}/login`, payload)
          .then(res => {
             const FBIdToken = `Bearer ${res.data.token}`;
             localStorage.setItem('FBIdToken', FBIdToken);
@@ -45,7 +47,7 @@ const actions = {
    },
    signupUser: ({ commit }, payload) => {
       commit(SET_LOADING, true);
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/signup', payload)
+      axios.post(`${APIURL}/signup`, payload)
          .then(res => {
             const FBIdToken = `Bearer ${res.data.token}`;
             localStorage.setItem('FBIdToken', FBIdToken);
@@ -65,7 +67,7 @@ const actions = {
       if(payload){
          axios.defaults.headers.common['Authorization'] = payload;
       }
-      axios.get('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user')
+      axios.get(`${APIURL}/user`)
          .then(res => {
             commit('setUserCredentials', res.data.credentials);
             commit('setUserLikes', res.data.likes);
@@ -95,7 +97,7 @@ const actions = {
       }
       
       axios.defaults.headers.common['Authorization'] = localStorage.getItem('FBIdToken');
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user/image', payload, config)
+      axios.post(`${APIURL}/user/image`, payload, config)
          .then(() => {
             dispatch('setUserData');
          })
@@ -110,7 +112,7 @@ const actions = {
       const token = localStorage.getItem('FBIdToken');
       axios.defaults.headers.common['Authorization'] = token;
 
-      axios.post('https://europe-west1-trecked-6b2cd.cloudfunctions.net/api/user', payload)
+      axios.post(`${APIURL}/user`, payload)
          .then(() => {
             dispatch('setUserData', payload);
             commit(SET_LOADING, false);
